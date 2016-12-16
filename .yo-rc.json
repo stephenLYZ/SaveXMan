@@ -1,0 +1,7 @@
+{
+  "generator-phaser": {
+    "projectName": "SaveXMan",
+    "esVersion": 6,
+    "gameFolder": "boilerplate"
+  }
+}
