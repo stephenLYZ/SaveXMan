@@ -5,11 +5,14 @@ class Boot extends Phaser.State {
   }
 
   preload() {
-    this.load.image('preloader', 'assets/preloader.gif');
+    this.load.image('preloader', 'assets/load.png'); // 进度条
+    this.load.image('background','assets/background.png'); // 背景图片
   }
 
   create() {
     this.game.input.maxPointers = 1;
+
+    this.stage.backgroundColor = '#fd7e00';
 
     //setup device scaling
     if (this.game.device.desktop) {
@@ -22,7 +25,7 @@ class Boot extends Phaser.State {
       this.game.scale.maxHeight = 480;
       this.game.scale.forceOrientation(true);
       this.game.scale.pageAlignHorizontally = true;
-      this.game.scale.setScreenSize(true);
+      this.game.scale.updateLayout(true);
     }
 
     this.initGlobalVariables();
@@ -32,7 +35,6 @@ class Boot extends Phaser.State {
 
   initGlobalVariables(){
     this.game.global = {
-
     };
   }
 
