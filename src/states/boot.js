@@ -35,6 +35,9 @@ class Boot extends Phaser.State {
 
   initGlobalVariables(){
     this.game.global = {
+      sugarBar: 0,
+      bellBar: 0,
+      gameBackground: ''
     };
   }
 

@@ -2,50 +2,30 @@ class Game extends Phaser.State {
 
   constructor() {
     super();
-    var gameBackground,
-        hero,
+    var hero,
         hp,
         shp,
         bhp,
         xman,
-        sugarBar,
-        bellBar,
-        sugarLife,
-        bellLife,
         bell,
         sugar,
-        widthLife;
+        timer;
 
   }
 
   create() {
-    this.gameBackground = this.add.tileSprite(0,0,this.game.width,this.game.height,'game-background');
+    this.game.global.gameBackground = this.add.tileSprite(0,0,this.game.width,this.game.height,'game-background');
 
     // hp
     this.hp = this.add.sprite(10,30,'hp');
 
-    var bmd = this.add.bitmapData(350,35);
-    bmd.ctx.beginPath();
-		bmd.ctx.rect(0, 0, 350, 40);
-		bmd.ctx.fillStyle = '#ffffff';
-		bmd.ctx.fill();
-
-    this.sugarBar = this.add.sprite(250,60,bmd);
-    this.sugarBar.anchor.set(0.5);
-
-    bmd = this.add.bitmapData(0,30);
-    bmd.ctx.beginPath();
-		bmd.ctx.rect(0, 0, 350, 40);
-		bmd.ctx.fillStyle = '#e05d9a';
-		bmd.ctx.fill();
-
-    this.widthLife = new Phaser.Rectangle(0, 0, 0, bmd.height);
-
-    this.sugarLife = this.add.sprite(250,60,bmd);
-    this.sugarLife.anchor.set(0.5);
-    this.sugarLife.cropEnabled = true;
 
 
+    this.drawBackground(this.sugar,250,60);
+    this.drawStuffBar(this.sugar,78,60,'#e05d9a',this.game.global.sugarBar);
+
+    this.drawBackground(this.bell,250,120);
+    this.drawStuffBar(this.bell,78,120,'#4aff94',this.game.global.bellBar);
 
 
     // this.bellBar = this.add.sprite(80,105,this.bhp);
@@ -78,23 +58,15 @@ class Game extends Phaser.State {
     this.sugar.setAll('outOfBoundsKill', true);
     this.sugar.setAll('checkWorldBounds', true);
     this.time.events.loop(Phaser.Timer.SECOND * 0.7,this.generateStuff,this,this.sugar);
+    this.time.events.add(Phaser.Timer.SECOND * this.rnd.integerInRange(5,7),this.changeGame,this);
   }
 
   update() {
-    this.gameBackground.tilePosition.y += 3;
+    this.game.global.gameBackground.tilePosition.y += 3;
 
 
-    // this.shp.ctx.rect(0,0,this.sugarBar,30);
-    // this.shp.ctx.fillStyle = '#e05d9a';
-    // this.shp.ctx.fill();
-    //
-    // this.bhp.ctx.rect(0,0,this.bellBar,30);
-    // this.bhp.ctx.fillStyle = '#4aff94';
-    // this.bhp.ctx.fill();
-
-    this.widthLife.width = this.widthLife.width; 
     this.physics.arcade.overlap(this.bell,this.hero,this.getBellBar,null,this);
-    this.physics.arcade.overlap(this.sugar,this.hero,this.getBellBar,null,this);
+    this.physics.arcade.overlap(this.sugar,this.hero,this.getSugarBar,null,this);
     this.hero.x = this.input.x;
   }
 
@@ -102,12 +74,23 @@ class Game extends Phaser.State {
   getBellBar(o1,o2){
     o2.kill();
 
-    if(this.widthLife.width  > 350){
-      this.widthLife.width  = 350;
+    if(this.game.global.bellBar > 350){
+      this.game.global.bellBar  = 350;
     }
-    this.widthLife.width += 2
+    this.game.global.bellBar += 5
 
-    console.log(this.widthLife.width)
+    this.drawStuffBar(this.bell,78,120,'#4aff94',this.game.global.bellBar);
+  }
+
+  getSugarBar(o1,o2){
+    o2.kill();
+
+    if(this.game.global.sugarBar > 350){
+      this.game.global.sugarBar  = 350;
+    }
+    this.game.global.sugarBar += 5
+
+    this.drawStuffBar(this.sugar,78,60,'#e05d9a',this.game.global.sugarBar);
   }
 
   generateStuff(stuff){
@@ -116,8 +99,31 @@ class Game extends Phaser.State {
     _stuff.body.velocity.y = this.rnd.integerInRange(200,600);
   }
 
-  endGame() {
-    this.game.state.start('gameover');
+  drawBackground(bgbar,x,y){
+    var bmd = this.add.bitmapData(350,35);
+    bmd.ctx.beginPath();
+		bmd.ctx.rect(0, 0, 350, 40);
+		bmd.ctx.fillStyle = '#ffffff';
+		bmd.ctx.fill();
+
+    bgbar = this.add.sprite(x,y,bmd);
+    bgbar.anchor.set(0.5);
+  }
+
+  drawStuffBar(stuffbar,x,y,color,width){
+    var bmd = this.add.bitmapData(width,30);
+    bmd.ctx.beginPath();
+		bmd.ctx.rect(0, 0, width, 40);
+		bmd.ctx.fillStyle = color;
+		bmd.ctx.fill();
+
+    stuffbar = this.add.sprite(x,y,bmd);
+    stuffbar.anchor.y = 0.5;
+  }
+
+  changeGame() {
+
+    this.game.state.start('transition');
   }
 
 }

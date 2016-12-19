@@ -1,9 +1,9 @@
-class Menu extends Phaser.State {
+class Gamewin extends Phaser.State {
 
   constructor() {
     super();
   }
-  
+
   create() {
     var text = this.add.text(this.game.width * 0.5, this.game.height * 0.5, 'Gameover', {
       font: '42px Arial', fill: '#ffffff', align: 'center'
@@ -32,4 +32,4 @@ class Menu extends Phaser.State {
 
 }
 
-export default Menu;
+export default Gamewin;
