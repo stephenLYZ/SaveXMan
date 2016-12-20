@@ -19,8 +19,6 @@ class Game extends Phaser.State {
     // hp
     this.hp = this.add.sprite(10,30,'hp');
 
-
-
     this.drawBackground(this.sugar,250,60);
     this.drawStuffBar(this.sugar,78,60,'#e05d9a',this.game.global.sugarBar);
 

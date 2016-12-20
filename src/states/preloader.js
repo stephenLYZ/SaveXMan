@@ -37,10 +37,13 @@ class Preloader extends Phaser.State {
       this.load.image('game-background','assets/game-background.png');
       this.load.image('fight-background','assets/fight-background.png');
       this.load.image('xman','assets/xman.png');
+      this.load.image('xman-hit','assets/xman-hit.png');
       this.load.image('hero','assets/hero.png');
       this.load.image('bell','assets/bell.png');
       this.load.image('sugar','assets/sugar.png');
       this.load.image('hp','assets/hp.png');
+      this.load.image('deer','assets/deer.png');
+      this.load.image('bullet','assets/bullet.png');
   }
 
   onLoadComplete() {
