@@ -9,7 +9,7 @@ class Transition extends Phaser.State {
   create() {
     this.game.global.gameBackground = this.add.tileSprite(0,0,this.game.width,this.game.height,'fight-background');
     this.game.global.gameBackground.alpha = 1;
-    this.add.tween(this.game.global.gameBackground).from({ alpha: 0 },1000,Phaser.Easing.Bounce.Out,true,0,1,true);
+    this.add.tween(this.game.global.gameBackground).from({ alpha: 0 },1000,Phaser.Easing.Bounce.Out,true,0,0,true);
     // hp
     this.hp = this.add.sprite(10,30,'hp');
 
@@ -30,8 +30,8 @@ class Transition extends Phaser.State {
     this.deer = this.add.sprite(this.game.world.centerX,-200,'deer');
     this.deer.anchor.set(0.5);
 
-    this.time.events.add(Phaser.Timer.SECOND * 4,this.changeXman,this);
-    this.time.events.add(Phaser.Timer.SECOND * 7,this.changeGame,this);
+    this.time.events.add(Phaser.Timer.SECOND * 2,this.changeXman,this);
+    this.time.events.add(Phaser.Timer.SECOND * 5,this.changeGame,this);
   }
 
 

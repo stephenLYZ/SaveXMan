@@ -44,6 +44,9 @@ class Preloader extends Phaser.State {
       this.load.image('hp','assets/hp.png');
       this.load.image('deer','assets/deer.png');
       this.load.image('bullet','assets/bullet.png');
+      this.load.image('bellBullet','assets/bellBullet.png');
+      this.load.image('blood','assets/blood.png');
+      this.load.image('mask','assets/mask.png');
   }
 
   onLoadComplete() {
