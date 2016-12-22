@@ -45,7 +45,7 @@ class Game extends Phaser.State {
     var time = this.rnd.integerInRange(1000,2000);
 
     // deer's hp
-    this.deer.life = 5;
+    this.deer.life = 2;
 
     // deer's move
     this.deer.x = 300;
