@@ -3,7 +3,8 @@ class Transition extends Phaser.State {
     super();
     var hero,
         xman,
-        deer;
+        deer,
+        appear;
   }
 
   create() {
@@ -32,6 +33,10 @@ class Transition extends Phaser.State {
 
     this.time.events.add(Phaser.Timer.SECOND * 2,this.changeXman,this);
     this.time.events.add(Phaser.Timer.SECOND * 5,this.changeGame,this);
+
+    //audio
+    this.appear = this.add.audio('deer-appear',1,true);
+    this.appear.play();
   }
 
 
@@ -67,6 +72,7 @@ class Transition extends Phaser.State {
   }
 
   changeGame(){
+    this.appear.stop();
     this.game.state.start('game2');
   }
 }

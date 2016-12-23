@@ -9,11 +9,18 @@ class Game extends Phaser.State {
         xman,
         bell,
         sugar,
-        timer;
+        timer,
+        bgm,
+        attack;
 
   }
 
   create() {
+    //audio
+    this.bgm = this.add.audio('game',1,true);
+    this.attack = this.add.audio('attack');
+
+    this.bgm.play();
     this.game.global.gameBackground = this.add.tileSprite(0,0,this.game.width,this.game.height,'game-background');
 
     // hp
@@ -56,7 +63,7 @@ class Game extends Phaser.State {
     this.sugar.setAll('outOfBoundsKill', true);
     this.sugar.setAll('checkWorldBounds', true);
     this.time.events.loop(Phaser.Timer.SECOND * 0.7,this.generateStuff,this,this.sugar);
-    this.time.events.add(Phaser.Timer.SECOND * this.rnd.integerInRange(5,7),this.changeGame,this);
+    this.time.events.add(Phaser.Timer.SECOND * this.rnd.integerInRange(20,25),this.changeGame,this);
   }
 
   update() {
@@ -72,10 +79,12 @@ class Game extends Phaser.State {
   getBellBar(o1,o2){
     o2.kill();
 
-    if(this.game.global.bellBar > 350){
-      this.game.global.bellBar  = 350;
+    this.attack.play();
+
+    if(this.game.global.bellBar > 340){
+      this.game.global.bellBar  = 340;
     }
-    this.game.global.bellBar += 5
+    this.game.global.bellBar += 10
 
     this.drawStuffBar(this.bell,78,120,'#4aff94',this.game.global.bellBar);
   }
@@ -83,10 +92,12 @@ class Game extends Phaser.State {
   getSugarBar(o1,o2){
     o2.kill();
 
-    if(this.game.global.sugarBar > 350){
-      this.game.global.sugarBar  = 350;
+    this.attack.play();
+
+    if(this.game.global.sugarBar > 340){
+      this.game.global.sugarBar  = 340;
     }
-    this.game.global.sugarBar += 5
+    this.game.global.sugarBar += 10
 
     this.drawStuffBar(this.sugar,78,60,'#e05d9a',this.game.global.sugarBar);
   }
@@ -121,7 +132,7 @@ class Game extends Phaser.State {
   }
 
   changeGame() {
-
+    this.bgm.stop();
     this.game.state.start('transition');
   }
 

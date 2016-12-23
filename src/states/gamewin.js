@@ -5,7 +5,9 @@ class Gamewin extends Phaser.State {
     var cleanDeer,
         gift,
         againBtn,
-        xiaziBtn;
+        xiaziBtn,
+        win,
+        ui;
   }
 
   create() {
@@ -26,7 +28,11 @@ class Gamewin extends Phaser.State {
     this.time.events.add(Phaser.Timer.SECOND * 0.5 , this.deerClean,this);
     this.time.events.add(Phaser.Timer.SECOND * 2, this.changeBackground,this);
     this.time.events.add(Phaser.Timer.SECOND * 3, this.showTweens,this);
-    
+
+    //audio
+    this.ui = this.add.audio('ui'); 
+    this.win = this.add.audio('win',1,true);
+    this.win.play();
   }
 
   showTweens(){
@@ -46,6 +52,7 @@ class Gamewin extends Phaser.State {
   }
 
   changeBackground(){
+    this.win.play()
     this.game.global.gameBackground = this.add.tileSprite(0,0,this.game.width,this.game.height,'game-background');
     this.game.global.gameBackground.alpha = 1
     this.add.tween(this.game.global.gameBackground).to({ alpha: 0 },1000,Phaser.Easing.Bounce.Out,true,0,0,true)
@@ -62,6 +69,7 @@ class Gamewin extends Phaser.State {
   }
   
   winDisplay(){
+    this.ui.play(); 
     this.gift.kill();
     var win = this.add.sprite(this.game.world.centerX,this.game.world.centerY ,'win');
     win.anchor.set(0.5);
@@ -79,6 +87,7 @@ class Gamewin extends Phaser.State {
   }
 
   openXiazi(){
+    this.ui.play(); 
     window.open("http://ccnubox.muxixyz.com/", "_blank");
   }
 
@@ -86,9 +95,11 @@ class Gamewin extends Phaser.State {
     this.game.global.sugarBar = 0;
     this.game.global.bellBar = 0;
     this.stage.backgroundColor = '#fd7e00';
+    this.win.stop();
   }
 
   restartGame () {
+    this.ui.play(); 
     this.resetGlobalVariables();
     this.game.state.start('game1');
   }

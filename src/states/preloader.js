@@ -57,6 +57,16 @@ class Preloader extends Phaser.State {
       this.load.image('again-btn','assets/again-btn.png');
       this.load.image('xiazi-btn','assets/xiazi-btn.png');
       this.load.spritesheet('clean-deer','assets/animation.png',563,291,4);
+
+      // audio
+      this.load.audio('attack','assets/attack.wav');
+      this.load.audio('deer-appear','assets/deer.wav');
+      this.load.audio('fight','assets/fight.mp3');
+      this.load.audio('game','assets/game.wav');
+      this.load.audio('hitted','assets/hitted.wav');
+      this.load.audio('win','assets/win.wav');
+      this.load.audio('lose','assets/lose.wav');
+      this.load.audio('ui','assets/ui.wav');
   }
 
   onLoadComplete() {

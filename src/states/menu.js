@@ -2,6 +2,7 @@ class Menu extends Phaser.State {
 
   constructor() {
     super();
+    var ui;
   }
 
   create() {
@@ -21,6 +22,9 @@ class Menu extends Phaser.State {
     button.inputEnabled = true
     button.events.onInputDown.add(this.startGame,this)
 
+    // ui声音
+    this.ui = this.add.audio('ui'); 
+
     this.add.tween(title).from({ y: -200 },1000,Phaser.Easing.Linear.None,true);
     this.add.tween(xmanHead).from({ x: 600 },1000,Phaser.Easing.Linear.None,true);
     this.add.tween(button).from({ y: 500,alpha: 0 },1000,Phaser.Easing.Bounce.Out,true,700);
@@ -30,6 +34,7 @@ class Menu extends Phaser.State {
   update() {}
 
   startGame () {
+    this.ui.play(this.button);
     this.game.state.start('game1');
   }
 

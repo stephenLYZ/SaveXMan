@@ -2,6 +2,8 @@ class Gamelose extends Phaser.State {
 
   constructor() {
     super();
+    var lose,
+        ui;
   }
 
   create() {
@@ -16,21 +18,16 @@ class Gamelose extends Phaser.State {
     this.hero.anchor.setTo(0.5);
     this.hero.alpha = 1;
 
-    this.time.events.add(Phaser.Timer.SECOND * 0.5 , this.hitHero,this);
-    this.time.events.add(Phaser.Timer.SECOND * 3.5 , this.killHero,this);
-    this.time.events.add(Phaser.Timer.SECOND * 4 , this.gameLose,this);
+    this.add.tween(this.hero).to({ alpha: 0 },500,Phaser.Easing.Linear.None,true,500,2,false,);
+    
+    this.time.events.add(Phaser.Timer.SECOND * 2.5 , this.gameLose,this);
+
+    //audio
+    this.ui = this.add.audio('ui'); 
+    this.lose = this.add.audio('lose',1,true);
+    this.lose.play();
   }
 
-  hitHero() {
-    var tween1 = this.add.tween(this.deer).to({ y : this.game.height-300 },1000,"Cubic.easeInOut",true, 0, 0, false);
-    var tween2 = this.add.tween(this.hero).to({ alpha: 0 },2000,Phaser.Easing.Linear.None,true,0,1,true);
-    tween1.chain(tween2);
-    tween1.start();
-  }
-
-  killHero(){
-    this.hero.kill();
-  }
 
   gameLose(){
     this.add.tileSprite(0,0,this.game.width,this.game.height,'mask');
@@ -48,6 +45,7 @@ class Gamelose extends Phaser.State {
   }
 
   loseDisplay(){
+    this.ui.play(); 
     this.blood.kill();
     var lose = this.add.sprite(this.game.world.centerX,this.game.world.centerY ,'lose');
     lose.anchor.set(0.5);
@@ -65,6 +63,7 @@ class Gamelose extends Phaser.State {
   }
 
   openXiazi(){
+    this.ui.play();  
     window.open("http://ccnubox.muxixyz.com/", "_blank");
   }
 
@@ -72,9 +71,11 @@ class Gamelose extends Phaser.State {
     this.game.global.sugarBar = 0;
     this.game.global.bellBar = 0;
     this.stage.backgroundColor = '#fd7e00';
+    this.lose.stop();
   }
   
   restartGame () {
+    this.ui.play(); 
     this.resetGlobalVariables();
     this.game.state.start('game1');
   }

@@ -12,7 +12,9 @@ class Game extends Phaser.State {
         heroTime,
         bellCacheWidth,
         sugarCacheWidth,
-        blood;
+        blood,
+        fight,
+        attack;
   }
 
   create() {
@@ -47,7 +49,7 @@ class Game extends Phaser.State {
     var time = this.rnd.integerInRange(1000,2000);
 
     // deer's hp
-    this.deer.life = 2;
+    this.deer.life = 60;
 
     // deer's move
     this.deer.x = 300;
@@ -73,6 +75,12 @@ class Game extends Phaser.State {
     this.bellBullets.setAll('outOfBoundsKill', true);
     this.bellBullets.setAll('checkWorldBounds', true);
 
+    // audio
+    this.fight = this.add.audio('fight',1,true);
+    this.attack = this.add.audio('attack');
+    this.hitted = this.add.audio('hitted');
+    
+    this.fight.play();
   }
 
   update() {
@@ -109,7 +117,7 @@ class Game extends Phaser.State {
       if(this.time.now > (this.firingTime || 0)){
         bullet.reset(this.deer.body.x + 300,this.deer.body.y + 100);
         this.physics.arcade.moveToObject(bullet,this.hero,this.rnd.integerInRange(200,500));
-        this.firingTime = this.time.now + 500;
+        this.firingTime = this.time.now + 200;
       }
     }
   }
@@ -121,13 +129,16 @@ class Game extends Phaser.State {
         bullet.reset(this.hero.x ,this.hero.y + 8);
         bullet.body.velocity.y = -300;
         this.heroTime = this.time.now + 400;
-        this.bellCacheWidth.width -= 3 ;
+        this.bellCacheWidth.width -= 5 ;
+
+        this.attack.play();
       }
     }
   }
 
   hitEnemy(hero,bullent){
     bullent.kill();
+    this.hitted.play();
     if(this.deer.life < 0){
       this.deer.life = 0;
     }
@@ -136,11 +147,12 @@ class Game extends Phaser.State {
 
   hitHero(deer,bullent){
     bullent.kill();
+    this.hitted.play();
     if(this.sugarCacheWidth.width < 0){
       this.sugarCacheWidth.width = 0;
     }
-    this.sugarCacheWidth.width -= 3;
-    this.add.tween(this.hero).to({ alpha: 0.2},800,Phaser.Easing.Linear.None,true,0,0,false);
+    this.sugarCacheWidth.width -= 5;
+    this.add.tween(this.hero).to({ alpha: 0.1},500,Phaser.Easing.Linear.None,true,0,0,true);
   }
 
   drawBackground(bgbar,x,y){
@@ -178,10 +190,12 @@ class Game extends Phaser.State {
   }
 
   gameWin(){
+    this.fight.stop();
     this.game.state.start('gamewin');
   }
 
   gameLose(){
+    this.fight.stop();
     this.game.state.start('gamelose');
   }
 }

@@ -2,11 +2,13 @@ class Boot extends Phaser.State {
 
   constructor() {
     super();
+    var ui;
   }
 
   preload() {
     this.load.image('preloader', 'assets/load.png'); // 进度条
     this.load.image('background','assets/background.png'); // 背景图片
+    
   }
 
   create() {
