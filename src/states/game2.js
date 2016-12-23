@@ -11,7 +11,8 @@ class Game extends Phaser.State {
         firingTime,
         heroTime,
         bellCacheWidth,
-        sugarCacheWidth;
+        sugarCacheWidth,
+        blood;
   }
 
   create() {
@@ -37,6 +38,7 @@ class Game extends Phaser.State {
     this.hero.body.collideWorldBounds = true;
     this.hero.body.immovable = true;
     this.hero.body.bounce.set(1);
+    this.hero.alpha = 1;
 
     //deer
     this.deer = this.add.sprite(this.game.world.centerX,300,'deer');
@@ -91,7 +93,7 @@ class Game extends Phaser.State {
         this.gameWin();
       }
     }else if(this.bellCacheWidth.width <= 0 && this.sugarCacheWidth.width > 0){
-      this.time.events.add(Phaser.Timer.SECOND * 3,this.relay,this);
+      this.time.events.add(Phaser.Timer.SECOND * 4,this.relay,this);
     }else{
       this.gameLose();
     }
@@ -118,7 +120,7 @@ class Game extends Phaser.State {
       if(this.time.now > (this.heroTime || 0)){
         bullet.reset(this.hero.x ,this.hero.y + 8);
         bullet.body.velocity.y = -300;
-        this.heroTime = this.time.now + 500;
+        this.heroTime = this.time.now + 400;
         this.bellCacheWidth.width -= 3 ;
       }
     }
@@ -138,6 +140,7 @@ class Game extends Phaser.State {
       this.sugarCacheWidth.width = 0;
     }
     this.sugarCacheWidth.width -= 3;
+    this.add.tween(this.hero).to({ alpha: 0.2},800,Phaser.Easing.Linear.None,true,0,0,false);
   }
 
   drawBackground(bgbar,x,y){

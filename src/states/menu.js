@@ -24,7 +24,7 @@ class Menu extends Phaser.State {
     this.add.tween(title).from({ y: -200 },1000,Phaser.Easing.Linear.None,true);
     this.add.tween(xmanHead).from({ x: 600 },1000,Phaser.Easing.Linear.None,true);
     this.add.tween(button).from({ y: 500,alpha: 0 },1000,Phaser.Easing.Bounce.Out,true,700);
-    this.add.tween(role).from({ x: 460 , y: 1020,alpha: 0 },1000,Phaser.Easing.Linear.None,true,1400);
+    this.add.tween(role).from({ x: 460 , y: 1020,alpha: 0 },800,Phaser.Easing.Linear.None,true,1300);
   }
 
   update() {}
