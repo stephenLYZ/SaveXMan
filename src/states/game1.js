@@ -63,7 +63,7 @@ class Game extends Phaser.State {
     this.sugar.setAll('outOfBoundsKill', true);
     this.sugar.setAll('checkWorldBounds', true);
     this.time.events.loop(Phaser.Timer.SECOND * 0.7,this.generateStuff,this,this.sugar);
-    this.time.events.add(Phaser.Timer.SECOND * this.rnd.integerInRange(20,25),this.changeGame,this);
+    this.time.events.add(Phaser.Timer.SECOND * this.rnd.integerInRange(2222,25),this.changeGame,this);
   }
 
   update() {
@@ -84,7 +84,7 @@ class Game extends Phaser.State {
     if(this.game.global.bellBar > 340){
       this.game.global.bellBar  = 340;
     }
-    this.game.global.bellBar += 10
+    this.game.global.bellBar += 12
 
     this.drawStuffBar(this.bell,78,120,'#4aff94',this.game.global.bellBar);
   }
@@ -97,7 +97,7 @@ class Game extends Phaser.State {
     if(this.game.global.sugarBar > 340){
       this.game.global.sugarBar  = 340;
     }
-    this.game.global.sugarBar += 10
+    this.game.global.sugarBar += 12
 
     this.drawStuffBar(this.sugar,78,60,'#e05d9a',this.game.global.sugarBar);
   }
@@ -105,7 +105,7 @@ class Game extends Phaser.State {
   generateStuff(stuff){
     var _stuff = stuff.getFirstExists(false);
     _stuff.reset(this.rnd.integerInRange(200,800),250);
-    _stuff.body.velocity.y = this.rnd.integerInRange(200,600);
+    _stuff.body.velocity.y = this.rnd.integerInRange(500,700);
   }
 
   drawBackground(bgbar,x,y){

@@ -88,7 +88,7 @@ class Gamewin extends Phaser.State {
 
   openXiazi(){
     this.ui.play(); 
-    window.open("http://ccnubox.muxixyz.com/", "_blank");
+    window.location.href = "http://ccnubox.muxixyz.com/" ;
   }
 
   resetGlobalVariables(){

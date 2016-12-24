@@ -12,6 +12,9 @@ class Game extends Phaser.State {
         heroTime,
         bellCacheWidth,
         sugarCacheWidth,
+        deerCacheWidth,
+        deerBar,
+        _deerBar,
         blood,
         fight,
         attack;
@@ -23,16 +26,20 @@ class Game extends Phaser.State {
     // cachewidth
     this.sugarCacheWidth = new Phaser.Rectangle(0, 0, this.game.global.sugarBar, 30);
     this.bellCacheWidth = new Phaser.Rectangle(0, 0, this.game.global.bellBar, 30);
+    this.deerCacheWidth = new Phaser.Rectangle(0, 0, this.game.width, 20);
 
     // hp
     this.hp = this.add.sprite(10,30,'hp');
 
-    this.drawBackground(this.sugar,250,60);
+    this.drawBackground(this.sugar,250,60,350);
     this._sugarBar = this.drawStuffBar(this.sugar,78,60,'#e05d9a',this.game.global.sugarBar,this.sugarCacheWidth);
 
-    this.drawBackground(this.bell,250,120);
+    this.drawBackground(this.bell,250,120,350);
     this._bellBar = this.drawStuffBar(this.bell,78,120,'#4aff94',this.game.global.bellBar,this.bellCacheWidth);
 
+    this.drawBackground(this.deerBar,this.game.width * 0.5,15,this.game.width);
+    this._deerBar = this.drawStuffBar(this.deerBar,0,15,'#3F2A36',this.game.width,this.deerCacheWidth);
+    
     // hero
     this.hero = this.add.sprite(this.game.world.centerX,this.game.height-150,'hero');
     this.hero.anchor.setTo(0.5);
@@ -49,7 +56,7 @@ class Game extends Phaser.State {
     var time = this.rnd.integerInRange(1000,2000);
 
     // deer's hp
-    this.deer.life = 60;
+    this.deer.life = 20;
 
     // deer's move
     this.deer.x = 300;
@@ -92,8 +99,9 @@ class Game extends Phaser.State {
       //herofire
       this.heroFires();
       this._bellBar.updateCrop();
+      this._deerBar.updateCrop();
 
-      if(this.deer.life > 0){
+      if(this.deerCacheWidth.width > 0){
         // enemyFire
         this.enemyFires();
         this._sugarBar.updateCrop();
@@ -101,8 +109,10 @@ class Game extends Phaser.State {
         this.gameWin();
       }
     }else if(this.bellCacheWidth.width <= 0 && this.sugarCacheWidth.width > 0){
+      this._deerBar.updateCrop();
       this.time.events.add(Phaser.Timer.SECOND * 4,this.relay,this);
     }else{
+      this._deerBar.updateCrop();
       this.gameLose();
     }
 
@@ -139,10 +149,11 @@ class Game extends Phaser.State {
   hitEnemy(hero,bullent){
     bullent.kill();
     this.hitted.play();
-    if(this.deer.life < 0){
-      this.deer.life = 0;
-    }
-    this.deer.life --;
+    if(this.deerCacheWidth.width < 0){
+      this.deerCacheWidth.width = 0;
+    } 
+    var reduceWidth = this.game.width  * Math.random() * 0.04;
+    this.deerCacheWidth.width -= reduceWidth;
   }
 
   hitHero(deer,bullent){
@@ -151,14 +162,14 @@ class Game extends Phaser.State {
     if(this.sugarCacheWidth.width < 0){
       this.sugarCacheWidth.width = 0;
     }
-    this.sugarCacheWidth.width -= 5;
-    this.add.tween(this.hero).to({ alpha: 0.1},500,Phaser.Easing.Linear.None,true,0,0,true);
+    this.sugarCacheWidth.width -= 15;
+    // this.add.tween(this.hero).to({ alpha: 0.1},500,Phaser.Easing.Linear.None,true,0,0,false);
   }
 
-  drawBackground(bgbar,x,y){
-    var bmd = this.add.bitmapData(350,35);
+  drawBackground(bgbar,x,y,width){
+    var bmd = this.add.bitmapData(width,35);
     bmd.ctx.beginPath();
-		bmd.ctx.rect(0, 0, 350, 40);
+		bmd.ctx.rect(0, 0, width, 40);
 		bmd.ctx.fillStyle = '#ffffff';
 		bmd.ctx.fill();
 

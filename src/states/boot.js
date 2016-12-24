@@ -6,8 +6,10 @@ class Boot extends Phaser.State {
   }
 
   preload() {
-    this.load.image('preloader', 'assets/load.png'); // 进度条
-    this.load.image('background','assets/background.png'); // 背景图片
+    this.load.baseURL = 'http://cdn.muxixyz.com/'
+    this.load.crossOrigin = 'anonymous';
+    this.load.image('preloader', 'load.png'); // 进度条
+    this.load.image('background','background.png'); // 背景图片
     
   }
 
