@@ -45,6 +45,8 @@ class Game extends Phaser.State {
     this.hero.anchor.setTo(0.5);
     this.physics.enable(this.hero,Phaser.Physics.ARCADE);
     this.hero.body.collideWorldBounds = true;
+    this.hero.inputEnabled = true;
+    this.hero.input.enableDrag();
     this.hero.body.immovable = true;
     this.hero.body.bounce.set(1);
     this.hero.alpha = 1;
@@ -118,7 +120,6 @@ class Game extends Phaser.State {
 
     this.physics.arcade.overlap(this.bullets,this.hero,this.hitHero,null,this);
     this.physics.arcade.overlap(this.bellBullets,this.deer,this.hitEnemy,null,this);
-    this.hero.x = this.input.x;
   }
 
   enemyFires(){
@@ -127,7 +128,7 @@ class Game extends Phaser.State {
       if(this.time.now > (this.firingTime || 0)){
         bullet.reset(this.deer.body.x + 300,this.deer.body.y + 100);
         this.physics.arcade.moveToObject(bullet,this.hero,this.rnd.integerInRange(200,500));
-        this.firingTime = this.time.now + 200;
+        this.firingTime = this.time.now + 150;
       }
     }
   }

@@ -62,8 +62,9 @@ class Game extends Phaser.State {
     this.sugar.createMultiple(15,'sugar');
     this.sugar.setAll('outOfBoundsKill', true);
     this.sugar.setAll('checkWorldBounds', true);
+    
     this.time.events.loop(Phaser.Timer.SECOND * 0.7,this.generateStuff,this,this.sugar);
-    this.time.events.add(Phaser.Timer.SECOND * this.rnd.integerInRange(2222,25),this.changeGame,this);
+    this.time.events.add(Phaser.Timer.SECOND * this.rnd.integerInRange(21,23),this.changeGame,this);
   }
 
   update() {
